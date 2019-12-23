@@ -47,7 +47,8 @@ class App extends Component
       age : '244'
     }
   ],
-  otherState : 'other state Value'
+  otherState : 'other state Value',
+  showPersons : false
 }
 
 switchNamehandler = () =>
@@ -86,12 +87,49 @@ switchAgeHandler = (param) =>
           age : '34456'
         }
       ]
+     
     }
     
   )
 
 }
+
+togglePersonsHandler = () =>{
+  const doShowPersons = this.state.showPersons;
+  this.setState(
+    {
+      showPersons : !doShowPersons
+    }
+  );
+}
   render (){
+
+    let persons = null;
+    let persons_two = null;
+    if(this.state.showPersons)
+    {
+      persons_two = (
+        <div>
+            {this.state.persons.map(person => {
+              return <Person name={person.name}
+              age={person.age} />
+            })
+
+            }
+        </div>
+      )
+
+      persons = (
+        <div>
+          <Person name={this.state.persons[0].name}
+            age={this.state.persons[0].age} />
+          <Person name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            //click={this.switchAgeHandler}/> 
+            click={() => this.switchAgeHandler('Neebal')} />
+        </div>
+      )
+    }
 
     return(
 
@@ -100,13 +138,19 @@ switchAgeHandler = (param) =>
         {/* <Person work = "Engineer"/>
         <Person work = "Unknown">MyHobbies</Person>
         <Person work = "Business"/> */}
-
-        <Person name = {this.state.persons[0].name} age = {this.state.persons[0].age}/>
-        <Person name = {this.state.persons[1].name} 
-                age = {this.state.persons[1].age}
-                //click={this.switchAgeHandler}/> 
-                click={() => this.switchAgeHandler('Neebal')}/> 
+        {/* { this.state.showPersons === true ?
+          <div>
+          <Person name={this.state.persons[0].name}
+            age={this.state.persons[0].age} />
+          <Person name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            //click={this.switchAgeHandler}/> 
+            click={() => this.switchAgeHandler('Neebal')} />
+        </div> : null } */}
+        {persons_two}
         <button onClick={this.switchNamehandler}>Click</button>
+        <br/>
+        <button onClick={this.togglePersonsHandler}>Click to Show persons</button>
 
         {/*  !st we made a function call ref not an actual func call , in 2nd we made use of arrow func to make a func call with parametrs     */}
         {/* <Person name = {personsState.persons[0].name} age = {personsState.persons[0].age}/>
@@ -124,7 +168,7 @@ switchAgeHandler = (param) =>
 //   return (
 //     <div className="App">
 //       <header className="App-header">
-//         <img src={logo} className="App-logo"  ="logo" />
+//         <img src={logo} className="App-logo" alt="logo" />
 //         <p>
 //           Edit <code>src/App.js</code> and save to reload.
 //         </p>
